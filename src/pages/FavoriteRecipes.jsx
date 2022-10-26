@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getItem } from '../services/LocalStorageFuncs';
 import Header from '../components/Header';
+import heartBlack from '../images/blackHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
 
 // const copy = require('clipboard-copy');
 
@@ -50,17 +52,32 @@ function FavoriteRecipes() {
                   <p data-testid={ `${index}-horizontal-top-text` }>{ dr.category }</p>
                   <p data-testid={ `${index}-horizontal-name` }>{ dr.name }</p>
                   <p data-testid={ `${index}-horizontal-done-date` }>{ dr.doneDate }</p>
+                  <p data-testid={ `${index}-horizontal-top-text` }>
+                    {
+                      dr.type === 'meal'
+                        ? `${dr.nationality} - ${dr.category}`
+                        : `${dr.alcoholicOrNot}`
+                    }
+                  </p>
                   <button
                     type="button"
-                    data-testid={ `${index}-horizontal-share-btn` }
+                    onClick={ () => clickClipBoard(`/${dr.type}s/${dr.id}`) }
                   >
-                    Compartilhar
+                    <img
+                      src={ shareIcon }
+                      alt="Compartilhar"
+                      data-testid={ `${index}-horizontal-share-btn` }
+                    />
                   </button>
+
                   <button
                     type="button"
-                    data-testid={ `${index}-horizontal-favorite-btn` }
                   >
-                    favoritar
+                    <img
+                      src={ heartBlack }
+                      alt="Favoriatr"
+                      data-testid={ `${index}-horizontal-favorite-btn` }
+                    />
                   </button>
                 </li>
               ))
