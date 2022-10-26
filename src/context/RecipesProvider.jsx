@@ -18,6 +18,7 @@ function RecipesProvider({ children }) {
   const [mealsFilter, setMealsFilter] = useState([]);
   const [btnsDrinks, setBtnsDrinks] = useState([]);
   const [btnsMeals, setBtnsMeals] = useState([]);
+  const [inputText, setInputText] = useState('');
   const { state: doneRecipes,
     setState: setDoneRecipes } = useLocalStorage('doneRecipes', []);
   const {
@@ -80,6 +81,10 @@ function RecipesProvider({ children }) {
     }
   }, []);
 
+  const handleInput = ({ target: { value } }) => {
+    setInputText(value);
+  };
+
   const clearAllFilters = useCallback((type) => {
     if (type === 'drink') {
       setDrinksFilter(drinks);
@@ -121,6 +126,8 @@ function RecipesProvider({ children }) {
     setInProgressRecipes,
     favoriteRecipes,
     setFavoriteRecipes,
+    handleInput,
+    inputText,
   }), [
     favoriteRecipes,
     setFavoriteRecipes,
@@ -137,6 +144,7 @@ function RecipesProvider({ children }) {
     clickCategory,
     clearAllFilters,
     findRecipeById,
+    inputText,
   ]);
 
   return (
