@@ -18,6 +18,7 @@ function Profile() {
       <button
         type="button"
         data-testid="profile-done-btn"
+        onClick={ () => push('/done-recipes') }
       >
         Done Recipes
       </button>
