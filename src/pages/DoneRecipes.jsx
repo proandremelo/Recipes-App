@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { getItem } from '../services/LocalStorageFuncs';
+// import { getItem } from '../services/LocalStorageFuncs';
 import Header from '../components/Header';
+import RecipesContext from '../context/RecipesContext';
 
 const copy = require('clipboard-copy');
 
 function DoneRecipes() {
-  const [recipes, setRecipes] = useState([]);
+  const { doneRecipes: recipes } = useContext(RecipesContext);
   const [clipboard, setClipBoard] = useState();
   const [type, setType] = useState();
-
-  useEffect(() => {
-    setRecipes(getItem('doneRecipes'));
-  }, []);
 
   const clickClipBoard = async (pathname) => {
     try {
