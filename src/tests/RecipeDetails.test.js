@@ -1,8 +1,11 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
+
+const startStr = 'start-recipe-btn';
 
 describe('Testando a pagina detalhada das receitas', () => {
   it('Testando se os elementos sao renderizados na pagina de meals', async () => {
@@ -16,7 +19,7 @@ describe('Testando a pagina detalhada das receitas', () => {
     const btnShare = await screen.findByTestId('share-btn');
     const iframeVideo = await screen.findByTestId('video');
     const recomendation = await screen.findByTestId('0-recommendation-card', undefined, { timeout: 2000 });
-    const btnStartRecipe = await screen.findByTestId('start-recipe-btn');
+    const btnStartRecipe = await screen.findByTestId(startStr);
 
     expect(img).toBeInTheDocument();
     expect(tilte).toBeInTheDocument();
@@ -50,7 +53,7 @@ describe('Testando a pagina detalhada das receitas', () => {
     const btnFavorite = await screen.findByTestId('favorite-btn');
     const btnShare = await screen.findByTestId('share-btn');
     const recomendation = await screen.findByTestId('0-recommendation-card', undefined, { timeout: 2000 });
-    const btnStartRecipe = await screen.findByTestId('start-recipe-btn');
+    const btnStartRecipe = await screen.findByTestId(startStr);
     const btnContinue = screen.queryByRole('button', {
       name: /continue recipe/i,
     });
@@ -78,17 +81,20 @@ describe('Testando a pagina detalhada das receitas', () => {
     expect(pathname).toBe('/drinks/15997/in-progress');
   });
 
-  // it.only('Continue Recipe', async () => {
-  //   const { history } = renderWithRouter(<App />, '/drinks/15288');
-  //   const btnStartRecipe = await screen.findByTestId('start-recipe-btn');
-  //   userEvent.click(btnStartRecipe);
-  //   const checkboxes = await screen.findAllByRole('checkbox');
-  //   userEvent.click(checkboxes[0]);
-  //   history.push('/drinks/15288');
-  //   const btnContinue = screen.queryByRole('button', {
-  //     name: /continue recipe/i,
-  //   }, { timeout: 3000 });
-  //   // expect(btnContinue).toBeInTheDocument();
-  //   expect(btnStartRecipe).toBeInTheDocument();
-  // });
+  it('Continue Recipe', async () => {
+    const { history } = renderWithRouter(<App />, '/drinks/15288');
+    const btnStartRecipe = await screen.findByTestId('start-recipe-btn');
+    userEvent.click(btnStartRecipe);
+    const checkboxes = await screen.findAllByRole('checkbox');
+    userEvent.click(checkboxes[0]);
+
+    act(() => {
+      history.push('/drinks/15288');
+    });
+
+    const btnContinue = await screen.findByRole('button', {
+      name: /continue recipe/i,
+    }, undefined, { timeout: 3000 });
+    expect(btnContinue).toBeInTheDocument();
+  });
 });

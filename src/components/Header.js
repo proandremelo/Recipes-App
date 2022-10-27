@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import RecipesContext from '../context/RecipesContext';
 
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 function Header() {
   const [title, setTitle] = useState('');
   const [searchInput, setSearchInput] = useState(false);
   const history = useHistory();
+  const { handleInput } = useContext(RecipesContext);
 
   function handleClickDisable() {
     setSearchInput(!searchInput);
@@ -61,9 +64,11 @@ function Header() {
           type="text"
           name="search"
           data-testid="search-input"
+          onChange={ handleInput }
         />
       }
       <h2 data-testid="page-title">{title}</h2>
+      <SearchBar />
     </header>
   );
 }

@@ -6,6 +6,7 @@ import '../styles/RecipeDetails.css';
 import heartWhite from '../images/whiteHeartIcon.svg';
 import heartBlack from '../images/blackHeartIcon.svg';
 import { clickFavorite } from '../services/recipeDetailsFuncs';
+import { getItem } from '../services/LocalStorageFuncs';
 
 const copy = require('clipboard-copy');
 
@@ -13,7 +14,7 @@ const MAX_NUM = 6;
 
 function RecipeDetails({ type, match }) {
   const [clipboard, setClipBoard] = useState();
-  const { findRecipeById, drinks, meals, doneRecipes, inProgressRecipes, favoriteRecipes,
+  const { findRecipeById, drinks, meals, doneRecipes, favoriteRecipes,
     setFavoriteRecipes } = useContext(RecipesContext);
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
@@ -200,7 +201,7 @@ function RecipeDetails({ type, match }) {
           )
         }
         {
-          inProgressRecipes[type][id] && (
+          getItem('inProgressRecipes')[type][id] && (
             <button
               type="button"
               // onClick={}
