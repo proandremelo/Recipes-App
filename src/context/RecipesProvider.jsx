@@ -128,6 +128,8 @@ function RecipesProvider({ children }) {
     setFavoriteRecipes,
     handleInput,
     inputText,
+    setDrinksFilter,
+    setMealsFilter,
   }), [
     favoriteRecipes,
     setFavoriteRecipes,
