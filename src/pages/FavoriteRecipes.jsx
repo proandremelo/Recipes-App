@@ -4,15 +4,28 @@ import Header from '../components/Header';
 import heartBlack from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 
-// const copy = require('clipboard-copy');
+const copy = require('clipboard-copy');
 
 function FavoriteRecipes() {
   const [recipes, setRecipes] = useState([]);
+  const [clipboard, setClipBoard] = useState();
+
   useEffect(() => {
     setRecipes(getItem('favoriteRecipes'));
   }, []);
 
   console.log(recipes);
+
+  const clickClipBoard = async (pathname) => {
+    try {
+      setClipBoard(true);
+      const url = `http://localhost:3000${pathname}`;
+      await copy(url);
+    } catch (error) {
+      console.log(error);
+      setClipBoard(false);
+    }
+  };
 
   return (
     <>
@@ -79,6 +92,8 @@ function FavoriteRecipes() {
                       data-testid={ `${index}-horizontal-favorite-btn` }
                     />
                   </button>
+
+                  { clipboard && <p>Link copied!</p>}
                 </li>
               ))
             }
