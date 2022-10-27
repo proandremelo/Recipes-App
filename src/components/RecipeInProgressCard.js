@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { setItem, getItem } from '../services/LocalStorageFuncs';
 import RecipesContext from '../context/RecipesContext';
@@ -14,13 +14,13 @@ function RecipeInProgressCard() {
   const { findRecipeById, favoriteRecipes,
     setFavoriteRecipes, setDoneRecipes, doneRecipes } = useContext(RecipesContext);
   const { pathname } = useLocation();
+  const [control, setControl] = useState(false);
   const { id } = useParams();
   const [data, setData] = useState({});
   const [ingredients, setIngredients] = useState([]);
   const [checks, setChecks] = useState([]);
   const [type, setType] = useState('');
   const { push } = useHistory();
-
   useEffect(() => {
     if (type !== '') {
       const saveIngredients = getItem('inProgressRecipes')[type];
@@ -30,37 +30,35 @@ function RecipeInProgressCard() {
       }
     }
   }, [id, type]);
-
-  const getIngredients = useCallback(() => {
-    if (data) {
-      const keysDataIngredients = Object.keys(data)
-        .filter((e) => e.includes('strIngredient'));
-      const filterIngredients = keysDataIngredients.filter((e) => data[e] !== null);
-      const filterVazios = filterIngredients.filter((e) => data[e] !== '');
-      setIngredients(filterVazios);
-    }
-  }, [data]);
-
   useEffect(() => {
-    let typeFood = '';
-    const asyncOperation = async () => {
-      if (pathname.includes('drinks')) {
-        typeFood = 'drinks';
-        setType(typeFood);
-        const dados = await findRecipeById(id, typeFood);
-        setData(dados);
-      } else {
-        typeFood = 'meals';
-        setType(typeFood);
-        const dados = await findRecipeById(id, typeFood);
-        setData(dados);
+    const func = async () => {
+      let typeFood = '';
+      let dados = {};
+      const asyncOperation = async () => {
+        if (pathname.includes('drinks')) {
+          typeFood = 'drinks';
+          setType(typeFood);
+          dados = await findRecipeById(id, typeFood);
+          setData(dados);
+        } else {
+          typeFood = 'meals';
+          setType(typeFood);
+          dados = await findRecipeById(id, typeFood);
+          setData(dados);
+        }
+      };
+      await asyncOperation();
+      if (dados !== undefined && !control) {
+        setControl(true);
+        const keysDataIngredients = Object.keys(dados)
+          .filter((e) => e.includes('strIngredient'));
+        const filterIngredients = keysDataIngredients.filter((e) => dados[e] !== null);
+        const filterVazios = filterIngredients.filter((e) => dados[e] !== '');
+        setIngredients(filterVazios);
       }
     };
-
-    asyncOperation();
-    getIngredients();
-  }, [pathname, findRecipeById, id, getIngredients]);
-
+    func();
+  }, [pathname, findRecipeById, id, control]);
   useEffect(() => {
     if (checks.length > 0 && type !== '') {
       const saveObj = getItem('inProgressRecipes');
@@ -72,7 +70,6 @@ function RecipeInProgressCard() {
       setItem('inProgressRecipes', saveObj);
     }
   }, [checks, id, type]);
-
   const handleCheck = (ingredient) => {
     if (!checks.some((e) => e === ingredient)) {
       setChecks([...checks, ingredient]);
@@ -94,7 +91,7 @@ function RecipeInProgressCard() {
   const cond = ingredients.length !== 0 ? ingredients.length === checks.length : false;
   const handleClick = () => {
     if (type === 'drinks') {
-      const condicao = !doneRecipes.some((e) => +e.idDrink === +id);
+      const condicao = doneRecipes.every((e) => +e.id !== +id);
       if (condicao) {
         setDoneRecipes([...doneRecipes, {
           id: data.idDrink,
