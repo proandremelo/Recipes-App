@@ -1,9 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import styled from 'styled-components';
 // import { getItem } from '../services/LocalStorageFuncs';
 import Header from '../components/Header';
 import RecipesContext from '../context/RecipesContext';
+import shareIcon from '../images/shareIcon.svg';
+
+const Img = styled.img`
+  width: 100px;
+`;
 
 const copy = require('clipboard-copy');
 
@@ -57,7 +63,7 @@ function DoneRecipes() {
                   <a
                     href={ `http://localhost:3000/${dr.type}s/${dr.id}` }
                   >
-                    <img
+                    <Img
                       src={ dr.image }
                       alt={ dr.name }
                       data-testid={ `${index}-horizontal-image` }
@@ -92,7 +98,7 @@ function DoneRecipes() {
                     onClick={ () => clickClipBoard(`/${dr.type}s/${dr.id}`) }
                   >
                     <img
-                      src="./src/images/shareIcon.svg"
+                      src={ shareIcon }
                       alt="Compartilhar"
                       data-testid={ `${index}-horizontal-share-btn` }
                     />

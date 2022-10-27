@@ -56,7 +56,6 @@ function SearchBar() {
   };
 
   const pushLink = (info) => {
-    console.log('info', info);
     const path = location.pathname;
 
     if (info !== undefined) {
