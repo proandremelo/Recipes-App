@@ -13,8 +13,6 @@ function SearchBar() {
   const history = useHistory();
   const location = useLocation();
 
-  console.log(data);
-
   useEffect(() => {
     if (history.location.pathname.includes('meals')) {
       setUrl('themealdb');
@@ -76,6 +74,7 @@ function SearchBar() {
           name="btn-radio"
           data-testid="ingredient-search-radio"
           value="ingredient"
+          id={ data }
           onChange={ handleOnChange }
         />
       </label>

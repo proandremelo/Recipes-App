@@ -22,7 +22,7 @@ describe('Done Recipes', () => {
     expect(mealsBtn).toBeInTheDocument();
     expect(drinksBtn).toBeInTheDocument();
 
-    const image = await screen.findByTestId('0-horizontal-image');
+    const image = await screen.findByTestId('0-horizontal-image', undefined, { timeout: 3000 });
     const name = await screen.findByTestId('0-horizontal-name');
     const date = await screen.findByTestId('0-horizontal-done-date');
     const button = await screen.findByTestId('0-horizontal-share-btn');

@@ -8,7 +8,7 @@ const copy = require('clipboard-copy');
 
 function FavoriteRecipes() {
   const { favoriteRecipes, setFavoriteRecipes } = useContext(RecipesContext);
-
+  const [type, setType] = useState('');
   const [clipboard, setClipBoard] = useState();
 
   const clickClipBoard = async (pathname) => {
@@ -32,7 +32,7 @@ function FavoriteRecipes() {
       <button
         type="button"
         data-testid="filter-by-all-btn"
-        onClick={ () => setType() }
+        onClick={ () => setType('') }
       >
         All
       </button>
@@ -54,48 +54,49 @@ function FavoriteRecipes() {
         (favoriteRecipes !== undefined && favoriteRecipes.length > 0) && (
           <ul>
             {
-              favoriteRecipes?.map((dr, index) => (
-                <li key={ dr.id }>
-                  <img
-                    src={ dr.image }
-                    alt={ dr.name }
-                    data-testid={ `${index}-horizontal-image` }
-                  />
-                  <p data-testid={ `${index}-horizontal-top-text` }>{ dr.category }</p>
-                  <p data-testid={ `${index}-horizontal-name` }>{ dr.name }</p>
-                  <p data-testid={ `${index}-horizontal-done-date` }>{ dr.doneDate }</p>
-                  <p data-testid={ `${index}-horizontal-top-text` }>
-                    {
-                      dr.type === 'meal'
-                        ? `${dr.nationality} - ${dr.category}`
-                        : `${dr.alcoholicOrNot}`
-                    }
-                  </p>
-                  <button
-                    type="button"
-                    onClick={ () => clickClipBoard(`/${dr.type}s/${dr.id}`) }
-                  >
+              favoriteRecipes?.filter((e) => e.type.includes(type))
+                .map((dr, index) => (
+                  <li key={ dr.id }>
                     <img
-                      src={ shareIcon }
-                      alt="Compartilhar"
-                      data-testid={ `${index}-horizontal-share-btn` }
+                      src={ dr.image }
+                      alt={ dr.name }
+                      data-testid={ `${index}-horizontal-image` }
                     />
-                  </button>
+                    <p data-testid={ `${index}-horizontal-top-text` }>{ dr.category }</p>
+                    <p data-testid={ `${index}-horizontal-name` }>{ dr.name }</p>
+                    <p data-testid={ `${index}-horizontal-done-date` }>{ dr.doneDate }</p>
+                    <p data-testid={ `${index}-horizontal-top-text` }>
+                      {
+                        dr.type === 'meal'
+                          ? `${dr.nationality} - ${dr.category}`
+                          : `${dr.alcoholicOrNot}`
+                      }
+                    </p>
+                    <button
+                      type="button"
+                      onClick={ () => clickClipBoard(`/${dr.type}s/${dr.id}`) }
+                    >
+                      <img
+                        src={ shareIcon }
+                        alt="Compartilhar"
+                        data-testid={ `${index}-horizontal-share-btn` }
+                      />
+                    </button>
 
-                  <button
-                    type="button"
-                    onClick={ () => removeFavorite(dr.id) }
-                  >
-                    <img
-                      src={ heartBlack }
-                      alt="Favoriatr"
-                      data-testid={ `${index}-horizontal-favorite-btn` }
-                    />
-                  </button>
+                    <button
+                      type="button"
+                      onClick={ () => removeFavorite(dr.id) }
+                    >
+                      <img
+                        src={ heartBlack }
+                        alt="Favoriatr"
+                        data-testid={ `${index}-horizontal-favorite-btn` }
+                      />
+                    </button>
 
-                  { clipboard && <p>Link copied!</p>}
-                </li>
-              ))
+                    { clipboard && <p>Link copied!</p>}
+                  </li>
+                ))
             }
           </ul>
         )
