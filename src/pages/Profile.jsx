@@ -11,6 +11,15 @@ function Profile() {
     setEmail(getItem('user') ? getItem('user').email : '');
   }, []);
   const { push } = useHistory();
+
+  const handleCLickLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('doneRecipes');
+    localStorage.removeItem('favoriteRecipes');
+    localStorage.removeItem('inProgressRecipes');
+    push('/');
+  };
+
   return (
     <section>
       <Header />
@@ -32,6 +41,7 @@ function Profile() {
       <button
         type="button"
         data-testid="profile-logout-btn"
+        onClick={ handleCLickLogout }
       >
         Logout
       </button>
