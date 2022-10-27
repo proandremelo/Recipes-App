@@ -13,10 +13,7 @@ function DoneRecipes() {
 
   useEffect(() => {
     setRecipes(getItem('doneRecipes'));
-    console.log(type);
   }, []);
-
-  console.log(recipes);
 
   const clickClipBoard = async (pathname) => {
     try {
@@ -59,7 +56,7 @@ function DoneRecipes() {
           recipes?.filter((recipe) => (type ? recipe.type === type : true))
             ?.map((dr, index) => (
               (
-                <li key={ dr.id }>
+                <li key={ `${dr.id} - ${index}` }>
                   <a
                     href={ `http://localhost:3000/${dr.type}s/${dr.id}` }
                   >

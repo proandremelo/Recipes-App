@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { getItem } from '../services/LocalStorageFuncs';
+import React, { useState, useContext } from 'react';
 import Header from '../components/Header';
 import heartBlack from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
+import RecipesContext from '../context/RecipesContext';
 
 const copy = require('clipboard-copy');
 
 function FavoriteRecipes() {
-  const [recipes, setRecipes] = useState([]);
+  const { favoriteRecipes, setFavoriteRecipes } = useContext(RecipesContext);
+
   const [clipboard, setClipBoard] = useState();
-
-  useEffect(() => {
-    setRecipes(getItem('favoriteRecipes'));
-  }, []);
-
-  console.log(recipes);
 
   const clickClipBoard = async (pathname) => {
     try {
@@ -25,6 +20,10 @@ function FavoriteRecipes() {
       console.log(error);
       setClipBoard(false);
     }
+  };
+
+  const removeFavorite = (id) => {
+    setFavoriteRecipes(favoriteRecipes.filter((e) => +e.id !== +id));
   };
 
   return (
@@ -52,10 +51,10 @@ function FavoriteRecipes() {
         Drinks
       </button>
       {
-        (recipes !== undefined && recipes.length > 0) && (
+        (favoriteRecipes !== undefined && favoriteRecipes.length > 0) && (
           <ul>
             {
-              recipes?.map((dr, index) => (
+              favoriteRecipes?.map((dr, index) => (
                 <li key={ dr.id }>
                   <img
                     src={ dr.image }
@@ -85,6 +84,7 @@ function FavoriteRecipes() {
 
                   <button
                     type="button"
+                    onClick={ () => removeFavorite(dr.id) }
                   >
                     <img
                       src={ heartBlack }
