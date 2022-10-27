@@ -2,12 +2,11 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
-
-import Header from '../components/Header';
+import App from '../App';
 
 describe('Testando Header', () => {
   test('Testa se o header é renderizado', () => {
-    const { history } = renderWithRouter(<Header />, '/drinks');
+    const { history } = renderWithRouter(<App />, '/drinks');
 
     const btnProfile = screen.getByTestId('profile-top-btn');
     const title = screen.getByTestId('page-title');
@@ -19,7 +18,7 @@ describe('Testando Header', () => {
   });
 
   test('Testando botão de pesquisa', () => {
-    renderWithRouter(<Header />, '/drinks');
+    renderWithRouter(<App />, '/drinks');
     const btnSearch = screen.getByAltText(/Icone de pesquisa/i);
     userEvent.click(btnSearch);
     const searchInput = screen.getByTestId('search-input');
@@ -28,7 +27,7 @@ describe('Testando Header', () => {
   });
 
   test('Testando rota profile', () => {
-    renderWithRouter(<Header />, '/profile');
+    renderWithRouter(<App />, '/profile');
     const profileName = screen.getByTestId('page-title');
     const profileIcon = screen.getByTestId('profile-top-btn');
 
@@ -37,7 +36,7 @@ describe('Testando Header', () => {
   });
 
   test('Testando rota done-recipes', () => {
-    renderWithRouter(<Header />, '/done-recipes');
+    renderWithRouter(<App />, '/done-recipes');
     const profileName = screen.getByRole('heading', {
       level: 2,
     });
@@ -48,7 +47,7 @@ describe('Testando Header', () => {
   });
 
   test('Testando rota favorite-recipes', () => {
-    renderWithRouter(<Header />, '/favorite-recipes');
+    renderWithRouter(<App />, '/favorite-recipes');
     const profileName = screen.getByRole('heading', {
       level: 2,
     });
