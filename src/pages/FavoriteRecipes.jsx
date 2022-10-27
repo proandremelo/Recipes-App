@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import heartBlack from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
@@ -10,6 +11,8 @@ function FavoriteRecipes() {
   const { favoriteRecipes, setFavoriteRecipes } = useContext(RecipesContext);
   const [type, setType] = useState('');
   const [clipboard, setClipBoard] = useState();
+
+  const { push } = useHistory();
 
   const clickClipBoard = async (pathname) => {
     try {
@@ -61,9 +64,17 @@ function FavoriteRecipes() {
                       src={ dr.image }
                       alt={ dr.name }
                       data-testid={ `${index}-horizontal-image` }
+                      onClick={ () => push(`${dr.type}s/${dr.id}`) }
+                      aria-hidden="true"
                     />
                     <p data-testid={ `${index}-horizontal-top-text` }>{ dr.category }</p>
-                    <p data-testid={ `${index}-horizontal-name` }>{ dr.name }</p>
+                    <p
+                      data-testid={ `${index}-horizontal-name` }
+                      onClick={ () => push(`${dr.type}s/${dr.id}`) }
+                      aria-hidden="true"
+                    >
+                      { dr.name }
+                    </p>
                     <p data-testid={ `${index}-horizontal-done-date` }>{ dr.doneDate }</p>
                     <p data-testid={ `${index}-horizontal-top-text` }>
                       {
