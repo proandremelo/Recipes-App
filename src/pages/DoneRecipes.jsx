@@ -1,15 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import styled from 'styled-components';
-// import { getItem } from '../services/LocalStorageFuncs';
 import Header from '../components/Header';
 import RecipesContext from '../context/RecipesContext';
 import shareIcon from '../images/shareIcon.svg';
-
-const Img = styled.img`
-  width: 100px;
-`;
+import DoneRecipesStyle from '../styles/DoneRecipesStyle';
 
 const copy = require('clipboard-copy');
 
@@ -30,30 +25,32 @@ function DoneRecipes() {
   };
 
   return (
-    <section>
+    <DoneRecipesStyle>
       { clipboard && <p>Link copied!</p>}
       <Header />
-      <button
-        type="button"
-        data-testid="filter-by-all-btn"
-        onClick={ () => setType() }
-      >
-        All
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-meal-btn"
-        onClick={ () => setType('meal') }
-      >
-        Meals
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-drink-btn"
-        onClick={ () => setType('drink') }
-      >
-        Drinks
-      </button>
+      <div className="filter-btn">
+        <button
+          type="button"
+          data-testid="filter-by-all-btn"
+          onClick={ () => setType() }
+        >
+          All
+        </button>
+        <button
+          type="button"
+          data-testid="filter-by-meal-btn"
+          onClick={ () => setType('meal') }
+        >
+          Meals
+        </button>
+        <button
+          type="button"
+          data-testid="filter-by-drink-btn"
+          onClick={ () => setType('drink') }
+        >
+          Drinks
+        </button>
+      </div>
       <ul>
         {
           recipes?.filter((recipe) => (type ? recipe.type === type : true))
@@ -63,7 +60,8 @@ function DoneRecipes() {
                   <a
                     href={ `http://localhost:3000/${dr.type}s/${dr.id}` }
                   >
-                    <Img
+                    <img
+                      className="recipe"
                       src={ dr.image }
                       alt={ dr.name }
                       data-testid={ `${index}-horizontal-image` }
@@ -79,7 +77,9 @@ function DoneRecipes() {
                         : `${dr.alcoholicOrNot}`
                     }
                   </p>
-                  <p data-testid={ `${index}-horizontal-done-date` }>{ dr.doneDate }</p>
+                  <p data-testid={ `${index}-horizontal-done-date` }>
+                    { dr.doneDate }
+                  </p>
                   <div>
                     {
                       dr.tags.filter((_t, i) => i < 2)
@@ -94,6 +94,7 @@ function DoneRecipes() {
                     }
                   </div>
                   <button
+                    className="share-btn"
                     type="button"
                     onClick={ () => clickClipBoard(`/${dr.type}s/${dr.id}`) }
                   >
@@ -108,7 +109,7 @@ function DoneRecipes() {
             ))
         }
       </ul>
-    </section>
+    </DoneRecipesStyle>
   );
 }
 

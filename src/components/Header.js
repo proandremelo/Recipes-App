@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import RecipesContext from '../context/RecipesContext';
 
+import RecipesContext from '../context/RecipesContext';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+import HeaderStyle from '../styles/HeaderStyle';
 
 function Header() {
   const [title, setTitle] = useState('');
@@ -35,9 +36,10 @@ function Header() {
   }, [history.location, setTitle]);
 
   return (
-    <header>
+    <HeaderStyle>
       <Link to="/profile">
         <img
+          className="icon-header"
           data-testid="profile-top-btn"
           src={ profileIcon }
           alt="Icone de perfil"
@@ -48,6 +50,7 @@ function Header() {
         || history.location.pathname === '/drinks')
           && (
             <button
+              className="icon-search"
               type="button"
               onClick={ handleClickDisable }
             >
@@ -69,7 +72,7 @@ function Header() {
       }
       <h2 data-testid="page-title">{title}</h2>
       <SearchBar />
-    </header>
+    </HeaderStyle>
   );
 }
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
+import LoginStyle from '../styles/LoginStyle';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -27,27 +28,21 @@ function Login() {
   };
 
   return (
-    <main>
+    <LoginStyle>
       <form
         onSubmit={ handleSubmit }
-        style={ {
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '300px',
-          height: '100vh',
-        } }
       >
         <input
           type="email"
           value={ email }
+          placeholder="Email"
           data-testid="email-input"
           onChange={ ({ target }) => setEmail(target.value) }
         />
         <input
           type="password"
           value={ password }
+          placeholder="Senha"
           data-testid="password-input"
           onChange={ handlePassword }
         />
@@ -60,7 +55,7 @@ function Login() {
         </button>
       </form>
       <Footer />
-    </main>
+    </LoginStyle>
   );
 }
 

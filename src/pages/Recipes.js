@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import RecipesStyle from '../styles/RecipesStyle';
 
 function Recipes({ name }) {
   const [click, setClick] = useState({ name: '' });
@@ -37,76 +38,84 @@ function Recipes({ name }) {
   );
 
   return (
-    <div>
+    <RecipesStyle>
       <Header />
       {
         name === 'drinks' ? (
-          <div>
-            {
-              renderButtons(btnsDrinks, 'drink')
-            }
-            <button
-              type="button"
-              data-testid="All-category-filter"
-              onClick={ () => clearAllFilters('drink') }
-            >
-              All
-            </button>
-            {
-              drinksFilter?.filter((_, index) => index <= max)
-                .map((e, index) => (
-                  <div
-                    key={ e.idDrink }
-                    data-testid={ `${index}-recipe-card` }
-                    onClick={ () => push(`/drinks/${e.idDrink}`) }
-                    aria-hidden="true"
-                  >
-                    <img
-                      data-testid={ `${index}-card-img` }
-                      src={ e.strDrinkThumb }
-                      alt={ e.strDrink }
-                    />
-                    <h4 data-testid={ `${index}-card-name` }>{e.strDrink}</h4>
-                  </div>
-                ))
-            }
+          <div className="recipe-content">
+            <div className="div-btn-filters">
+              {
+                renderButtons(btnsDrinks, 'drink')
+              }
+              <button
+                type="button"
+                data-testid="All-category-filter"
+                onClick={ () => clearAllFilters('drink') }
+              >
+                All
+              </button>
+            </div>
+            <div className="div-recipe">
+              {
+                drinksFilter?.filter((_, index) => index <= max)
+                  .map((e, index) => (
+                    <div
+                      key={ e.idDrink }
+                      data-testid={ `${index}-recipe-card` }
+                      onClick={ () => push(`/drinks/${e.idDrink}`) }
+                      aria-hidden="true"
+                    >
+                      <img
+                        data-testid={ `${index}-card-img` }
+                        src={ e.strDrinkThumb }
+                        alt={ e.strDrink }
+                      />
+                      <h4 data-testid={ `${index}-card-name` }>{e.strDrink}</h4>
+                    </div>
+                  ))
+              }
+            </div>
           </div>
         ) : (
-          <div>
-            {
-              renderButtons(btnsMeals, 'meal')
-            }
-            <button
-              type="button"
-              data-testid="All-category-filter"
-              name="meal"
-              onClick={ clearAllFilters }
-            >
-              All
-            </button>
-            {
-              mealsFilter?.filter((_, index) => index <= max)
-                .map((e, index) => (
-                  <div
-                    key={ e.idMeal }
-                    data-testid={ `${index}-recipe-card` }
-                    onClick={ () => push(`/meals/${e.idMeal}`) }
-                    aria-hidden="true"
-                  >
-                    <img
-                      src={ e.strMealThumb }
-                      alt={ e.strMeal }
-                      data-testid={ `${index}-card-img` }
-                    />
-                    <h4 data-testid={ `${index}-card-name` }>{e.strMeal}</h4>
-                  </div>
-                ))
-            }
+          <div className="recipe-content">
+            <div className="div-btn-filters">
+              {
+                renderButtons(btnsMeals, 'meal')
+              }
+              <button
+                type="button"
+                data-testid="All-category-filter"
+                name="meal"
+                onClick={ clearAllFilters }
+              >
+                All
+              </button>
+            </div>
+            <div className="div-recipe">
+              {
+                mealsFilter?.filter((_, index) => index <= max)
+                  .map((e, index) => (
+                    <div
+                      key={ e.idMeal }
+                      data-testid={ `${index}-recipe-card` }
+                      onClick={ () => push(`/meals/${e.idMeal}`) }
+                      aria-hidden="true"
+                    >
+                      <img
+                        src={ e.strMealThumb }
+                        alt={ e.strMeal }
+                        data-testid={ `${index}-card-img` }
+                      />
+                      <h4 data-testid={ `${index}-card-name` }>{e.strMeal}</h4>
+                    </div>
+                  ))
+              }
+            </div>
           </div>
         )
       }
       <Footer />
-    </div>
+    </RecipesStyle>
   );
 }
 

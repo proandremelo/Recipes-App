@@ -1,5 +1,21 @@
+.details-page {
+  background: linear-gradient(0deg, rgba(208, 167, 134, 0.929)
+  0%, rgba(218, 102, 0, 0.593) 52%, rgba(255, 186, 124, 0.47) 100%);
+}
+
+.main-content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
 .img_principal {
-  width: 100%;
+  height: 50%;
+  width: 50%;
+}
+
+.instructions {
+  width: 50%;
 }
 
 .recomendation_card {
@@ -12,12 +28,14 @@
 }
 
 .recomendation_container {
+  box-shadow: 1px 1px 8px black;
   display: flex;
   gap: 90px;
   margin-bottom: 50px;
   margin-left: 20px;
   margin-top: 30px;
   overflow-x: scroll;
+  width: 80%;
 }
 
 .start-recipe-button {

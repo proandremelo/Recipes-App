@@ -61,7 +61,7 @@ function RecipeDetails({ type, match }) {
 
   return (
     Object.keys(recipe).length > 0 && (
-      <div>
+      <div className="details-page">
         {
           clipboard && <div data-testid="msg_copy_sucess">Link copied!</div>
         }
@@ -90,7 +90,7 @@ function RecipeDetails({ type, match }) {
         </button>
         {
           type === 'drinks' ? (
-            <div>
+            <div className="main-content">
               <img
                 className="img_principal"
                 src={ recipe.strDrinkThumb }
@@ -131,7 +131,7 @@ function RecipeDetails({ type, match }) {
               </div>
             </div>
           ) : (
-            <div>
+            <div className="main-content">
               <img
                 src={ recipe.strMealThumb }
                 alt={ recipe.strMeal }
@@ -154,7 +154,12 @@ function RecipeDetails({ type, match }) {
                     ))
                 }
               </ul>
-              <p data-testid="instructions">{recipe.strInstructions}</p>
+              <p
+                className="instructions"
+                data-testid="instructions"
+              >
+                {recipe.strInstructions}
+              </p>
               <iframe
                 width={ 400 }
                 height={ 400 }
